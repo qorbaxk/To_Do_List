@@ -12,42 +12,66 @@
 
 let taskInput = document.getElementById("task-input");
 let addButton = document.getElementById("add-button");
+let tabs = document.querySelectorAll(".task-tabs div");
+let underLine = document.getElementById("under-line");
+
 let taskList = []; //입력받은 할일을 저장할 배열
+let filterList = []; //필터링한 할일을 저장할 배열
+let mode = "all"; //기본적으로 all에 나타낼수있도록 설정
 
 addButton.addEventListener("click",addTask);
 
-//할일 추가되는 함수
+for(let i=1; i<tabs.length; i++){
+    tabs[i].addEventListener("click",function (event){filter(event)});
+} //all, not done, done을 클릭하면 filter함수에 event 값이 넘어감
+
+
+//task마다 각자의 id를 부여하기 위해서 랜덤함수를 만듦
+function randomIDGenerate(){
+    return '_' + Math.random().toString(36).substr(2, 9);
+}
+
+
+//할일 추가되는 함수( + 버튼)
 function addTask(){
     //일의 끝남을 사용하기 위해서 string이 아닌 객체를 이용
+    
     let task = {
-        id: randomIDGenerate(), 
+        id: randomIDGenerate(), //랜덤으로 생성되는 id
         taskContent: taskInput.value, //입력받은 값 저장
-        isComplete: false, //할일의 완성도 체크
-        isDelete:false //삭제할지말지 체크
+        isComplete: false //할일의 완성도 체크
     }
-    taskList.push(task); //할일배열에 입력받은 값,완성도를 넣는다
+    taskList.push(task); //taskList 배열에 입력받은 값,완성도,id를 넣는다
     console.log(taskList);   
     render(); 
 }
 
+
 //추가되는 할일들 화면에 나타내주는 함수
 function render(){
+    let list = []; //필터링에 따라 배열을 적용할수있도록 새 배열을 정의
+    if(mode == "all"){
+        list = taskList; //전체모드일시 taskList 배열 사용
+    }else if(mode == "ongoing" || mode == "done"){
+        list = filterList; //안끝남,끝남모드 일시 filterList 배열 사용
+    }
+
     let resultHTML = '';
-    for(let i=0; i<taskList.length; i++){
-        if(taskList[i].isComplete == true){
+    for(let i=0; i<list.length; i++){
+        if(list[i].isComplete == true){
             resultHTML += `<div class="task">
-            <div class="task-done">${taskList[i].taskContent}</div>
+            <div class="task-done">${list[i].taskContent}</div>
             <div>
-                <button class="check-btn" onclick="toggleComplete('${taskList[i].id}')"><i class="fa-solid fa-square-check fa-2x"></i></button>
-                <button class="delete-btn" onclick="deleteTask('${taskList[i].id}')"><i class="fa-solid fa-eraser fa-2x"></i></button>
+                <button class="check-btn" onclick="toggleComplete('${list[i].id}')"><i class="fa-solid fa-square-check fa-2x"></i></button>
+                <button class="delete-btn" onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-eraser fa-2x"></i></button>
             </div>
         </div>`;
         }else{
             resultHTML += `<div class="task">
-            <div>${taskList[i].taskContent}</div>
+            <div>${list[i].taskContent}</div>
             <div>
-                <button class="check-btn" onclick="toggleComplete('${taskList[i].id}')"><i class="fa-regular fa-square fa-2x"></i></button>
-                <button class="delete-btn" onclick="deleteTask('${taskList[i].id}')"><i class="fa-solid fa-eraser fa-2x"></i></button>
+                <button class="check-btn" onclick="toggleComplete('${list[i].id}')"><i class="fa-regular fa-square fa-2x"></i></button>
+                <button class="delete-btn" onclick="deleteTask('${list[i].id}')"><i class="fa-solid fa-eraser fa-2x"></i></button>
             </div>
         </div>`;
         }
@@ -58,9 +82,7 @@ function render(){
 
 }
 
-//버튼에 클릭이벤트 넣는 방법은 addEventListener 뿐 아니고
-//버튼자체에 onclick 바로 넣을 수도 있다
-//버튼클릭시 id값을 같이 받아옴
+//할일완료 버튼클릭시 id값을 같이 받아옴(어떤 할일을 선택했는지 알기위해)
 function toggleComplete(id){
     console.log("id:",id);
     for(let i=0; i<taskList.length;i++){
@@ -74,10 +96,7 @@ function toggleComplete(id){
     console.log(taskList);
 }
 
-//task마다 각자의 id를 부여하기 위해서 랜덤함수를 만듦
-function randomIDGenerate(){
-    return '_' + Math.random().toString(36).substr(2, 9);
-}
+
 
 //삭제 버튼 클릭시 배열에서 삭제
 function deleteTask(id){
@@ -90,4 +109,33 @@ function deleteTask(id){
     }
     render();
     console.log(taskList);
+}
+
+//필터링하는 함수
+function filter(event){
+   //여기서 event는 tabs를 클릭할때 발생, 그때 id값 all ongoing done 중에 가져온다
+    mode = event.target.id;
+    filterList = []; //매번 초기화 하지 않으면 탭을 클릭할때마다 중복돼서 쌓여감
+    
+    if(mode == "all"){
+        render();
+    }else if(mode == "ongoing"){ //진행중인 할일들
+        for(let i=0; i<taskList.length; i++){
+            if(taskList[i].isComplete == false){
+                filterList.push(taskList[i]);
+                
+            }
+        }
+        render();
+    }else if(mode == "done"){ //끝낸 할일들
+        for(let i=0; i<taskList.length; i++){
+            if(taskList[i].isComplete == true){
+                filterList.push(taskList[i]);
+                
+            }
+        }
+        render(); 
+    }
+
+    console.log(filterList);
 }
