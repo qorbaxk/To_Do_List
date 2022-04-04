@@ -19,7 +19,18 @@ let taskList = []; //입력받은 할일을 저장할 배열
 let filterList = []; //필터링한 할일을 저장할 배열
 let mode = "all"; //기본적으로 all에 나타낼수있도록 설정
 
+//+버튼 클릭시 추가
 addButton.addEventListener("click",addTask);
+//엔터 누를경우 추가
+taskInput.addEventListener("keypress", (e)=>{
+    if(e.code === 'Enter'){
+        addTask();
+        taskInput.value = ''; //입력한값 지우기
+    }
+});
+
+
+
 
 for(let i=1; i<tabs.length; i++){
     tabs[i].addEventListener("click",function (event){filter(event)});
@@ -30,7 +41,6 @@ for(let i=1; i<tabs.length; i++){
 function randomIDGenerate(){
     return '_' + Math.random().toString(36).substr(2, 9);
 }
-
 
 //할일 추가되는 함수( + 버튼)
 function addTask(){
@@ -92,7 +102,7 @@ function toggleComplete(id){
             break; //찾는 순간 for문을 나오도록
         }
     }
-    render(); //불러서 UI도 업뎃
+    filter(); //불러서 UI도 업뎃
     console.log(taskList);
 }
 
@@ -107,14 +117,23 @@ function deleteTask(id){
         }
 
     }
-    render();
+    filter();
     console.log(taskList);
 }
 
 //필터링하는 함수
 function filter(event){
-   //여기서 event는 tabs를 클릭할때 발생, 그때 id값 all ongoing done 중에 가져온다
-    mode = event.target.id;
+   
+    if(event){
+        mode = event.target.id;
+        //밑줄그리는 것
+        underLine.style.left = event.target.offsetLeft + "px";
+        underLine.style.width = event.target.offsetWidth + "px";
+        underLine.style.top = event.target.offsetTop + event.currentTarget.offsetHeight + "px";
+    }
+   
+    //여기서 event는 tabs를 클릭할때 발생, 그때 id값 all ongoing done 중에 가져온다
+    
     filterList = []; //매번 초기화 하지 않으면 탭을 클릭할때마다 중복돼서 쌓여감
     
     if(mode == "all"){
