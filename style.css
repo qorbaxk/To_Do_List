@@ -1,14 +1,44 @@
+@font-face {
+    font-family: 'Cafe24SsurroundAir';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2105_2@1.0/Cafe24SsurroundAir.woff') format('woff');
+    font-weight:normal;
+    font-style: normal;
+}
+
+h1{
+    font-weight: bold;
+}
+*{
+    font-family: 'Cafe24SsurroundAir';
+}
+
 body{
     margin: 0;
     background-image: url("images/background.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    overflow-y: scroll;
+
+}
+
+.input-area{
+    
+    max-width: 80vw;
+    margin-bottom: 1em;
 }
 
 #task-input{
   
-    width: 19em;
-    border: 1px solid rgb(250, 211, 127);
+    width:50vw;
+    border-left-width:0;
+    border-right-width:0;
+    border-top-width:0;
+    border-bottom-width:1;
+    border-color:rgb(250,211,127);
+    
 }
 
 #add-button{
@@ -17,6 +47,8 @@ body{
     border: none;
     background-color: white;
 }
+
+
 .check-btn{
    color: rgb(3, 197, 3); 
    border: none;
@@ -31,7 +63,7 @@ body{
 
 .container{
     background-color: white;
-    width:45em;
+    width:100vw;
     min-height: 100vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 
@@ -39,11 +71,15 @@ body{
 
 .task-area{
     border: 1px solid lightgray;
+    
+    
 }
 .task-tabs{
     display: flex;
     border-bottom: 1px solid lightgray;
     position: relative;
+    font-weight: bold;
+    
 }
 
 .task-tabs div{
@@ -66,12 +102,11 @@ body{
     display: flex;
     justify-content: space-between;
     padding: 1em;
-    
-  
+
 }
 
 .task-done{
     text-decoration: line-through;
    
-    
+ 
 }
