@@ -8,6 +8,7 @@
 h1{
     font-weight: bold;
     margin-top: 0.3em;
+    
 
 }
 *{
@@ -16,7 +17,7 @@ h1{
 
 body{
     margin: 0;
-    background-image: url("images/background.jpg");
+    background-image: url("images/bbback.jpg");
     background-repeat: no-repeat;
     background-size: cover;
     -webkit-box-sizing: border-box;
@@ -33,7 +34,7 @@ body{
 }
 
 #task-input{
-  
+    
     width:50vw;
     border-left-width:0;
     border-right-width:0;
@@ -68,8 +69,8 @@ body{
     width:100vw;
     min-height: 100vh;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    border-top: dashed 7px rgb(255, 226, 164);
-    border-bottom: dashed 7px rgb(255, 226, 164); 
+    border-top: dashed 7px rgb(64, 64, 64);
+    border-bottom: dashed 7px rgb(64, 64, 64); 
 }
 
 .task-area{
@@ -92,7 +93,7 @@ body{
 
 #under-line{
     height: 4px;
-    background-color: pink;
+    background-color: rgb(250,211,127);
     position: absolute;
     width: 50px;
     left: 0px;
@@ -108,8 +109,11 @@ body{
 
 }
 
+
 .task-done{
     text-decoration: line-through;
+    background-color: lightgray;
+    transition: 0.5s;
    
  
 }
